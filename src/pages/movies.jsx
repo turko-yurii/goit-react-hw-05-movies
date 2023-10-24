@@ -46,6 +46,7 @@ const Movies = () => {
   const [status, setStatus] = useState('');
   const location = useLocation(); //для отримання шляху з якого переходимо для передачи через props
   const filmName = searchFilm.get('filmName') ?? '';
+  
 
   useEffect(() => {
     const fetchFilm = async () => {
@@ -80,8 +81,14 @@ const Movies = () => {
   return (
     <Container>
       <InputWrapper>
-        <input type="text" value={filmName} onChange={updateSearch} />
-        <label> Пошук фільму за ключовим словом</label>
+        <form onSubmit={updateSearch}>
+        <input
+          type="text"
+          placeholder="Search movies..."
+          autoComplete="off"
+        ></input>
+        <button type="submit">Search</button>
+      </form>
       </InputWrapper>
 
       {status === 'rejected' && <ErrorText>{error}</ErrorText>}
