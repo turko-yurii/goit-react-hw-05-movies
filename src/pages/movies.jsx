@@ -49,44 +49,48 @@ const Movies = () => {
   
 
   useEffect(() => {
-    const fetchFilm = async () => {
-      try {
-        const date = await getFilm(filmName);
-        const films = date.results;
+    const query = searchFilm.get("filmName")
+    if(!query ) return;
+        const fetchFilm = async () => {
+          try {
+            const date = await getFilm(query );
+            const films = date.results;
+    
+            if (!films.length ) {
+              setError(`Фільми зі словом ${filmName} не знайдені`);
+              setFilms([]);
+              setStatus('rejected');
+            } else {
+              setFilms(films);
+              setError(null);
+            }
+          } catch (error) {
+            setError(error.message);
+          }
+        };
+    
+        fetchFilm();
+      },[searchFilm]);
 
-        if (!films.length && filmName !== '') {
-          setError(`Фільми зі словом ${filmName} не знайдені`);
-          setFilms([]);
-          setStatus('rejected');
-        } else {
-          setFilms(films);
-          setError(null);
-        }
-      } catch (error) {
-        setError(error.message);
-      }
-    };
-
-    fetchFilm();
-  });
-
-  const updateSearch = event => {
-    const filmNameValue = event.target.value;
-    if (filmNameValue === '') {
-      return setSearchFilm({});
-    }
-    setSearchFilm({ filmName: filmNameValue });
-  };
+      const updateSearch = event => {
+        event.preventDefault()
+            const filmNameValue = event.target.elements.query.value;
+            if (filmNameValue === '') {
+              return setSearchFilm({});
+            }
+            setSearchFilm({ filmName: filmNameValue });
+          };
 
   return (
     <Container>
       <InputWrapper>
-        <form onSubmit={updateSearch}>
+      <form onSubmit={updateSearch}>
         <input
           type="text"
+name="query"
           placeholder="Search movies..."
           autoComplete="off"
-        ></input>
+        />
         <button type="submit">Search</button>
       </form>
       </InputWrapper>
