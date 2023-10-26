@@ -45,7 +45,7 @@ const Movies = () => {
   const [error, setError] = useState(null);
   const [status, setStatus] = useState('');
   const location = useLocation(); //для отримання шляху з якого переходимо для передачи через props
-  const filmName = searchFilm.get('filmName') ?? '';
+  
   
   useEffect(() => {
     const query = searchFilm.get("filmName")
