@@ -47,7 +47,6 @@ const Movies = () => {
   const location = useLocation(); //для отримання шляху з якого переходимо для передачи через props
   const filmName = searchFilm.get('filmName') ?? '';
   
-
   useEffect(() => {
     const query = searchFilm.get("filmName")
     if(!query ) return;
@@ -57,7 +56,7 @@ const Movies = () => {
             const films = date.results;
     
             if (!films.length ) {
-              setError(`Фільми зі словом ${filmName} не знайдені`);
+              setError(`Фільми зі словом ${query } не знайдені`);
               setFilms([]);
               setStatus('rejected');
             } else {
@@ -83,7 +82,7 @@ const Movies = () => {
 
   return (
     <Container>
-      <InputWrapper>
+      
       <form onSubmit={updateSearch}>
         <input
           type="text"
@@ -93,7 +92,7 @@ name="query"
         />
         <button type="submit">Search</button>
       </form>
-      </InputWrapper>
+      
 
       {status === 'rejected' && <ErrorText>{error}</ErrorText>}
 
